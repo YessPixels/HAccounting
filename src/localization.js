@@ -14,7 +14,7 @@ export const translations = {
       subtitle: "Bookkeeping, reportes financieros y asesoría para negocios en Estados Unidos.",
       ctaPrimary: "Agenda una llamada gratuita de 45 minutos",
       ctaSecondary: "Descarga la guía gratuita",
-      benefit1: "Atención en español",
+      benefit1: "Atención bilingüe",
       benefit2: "100% Confidencial",
       benefit3: "Enfoque personalizado",
       floatingCardText: "Claridad financiera para hacer crecer tu negocio con confianza."
@@ -29,7 +29,9 @@ export const translations = {
       s3Title: "Catch-Up & Clean-Up",
       s3Desc: "Ponemos tus libros al día y los organizamos para que tengas una base sólida.",
       s4Title: "Advisory Services",
-      s4Desc: "Asesoría financiera personalizada para tomar decisiones estratégicas y hacer crecer tu negocio."
+      s4Desc: "Asesoría financiera personalizada para tomar decisiones estratégicas y hacer crecer tu negocio.",
+      s5Title: "Credit Repair",
+      s5Desc: "Analizamos, corregimos y fortalecemos tu historial crediticio para impulsar el crecimiento financiero."
     },
     howWeWork: {
       title: "¿CÓMO TRABAJAMOS?",
@@ -132,7 +134,7 @@ export const translations = {
       subtitle: "Bookkeeping, financial reporting, and advisory for businesses in the United States.",
       ctaPrimary: "Schedule a free 45-minute discovery call",
       ctaSecondary: "Download free guide",
-      benefit1: "Support in Spanish",
+      benefit1: "Bilingual support",
       benefit2: "100% Confidential",
       benefit3: "Personalized focus",
       floatingCardText: "Financial clarity to grow your business with confidence."
@@ -147,7 +149,9 @@ export const translations = {
       s3Title: "Catch-Up & Clean-Up",
       s3Desc: "We bring your backlogged books up to date and correct previous bookkeeping errors.",
       s4Title: "Advisory Services",
-      s4Desc: "Personalized financial advisory to make strategic decisions and grow your business."
+      s4Desc: "Personalized financial advisory to make strategic decisions and grow your business.",
+      s5Title: "Credit Repair",
+      s5Desc: "We analyze, correct, and strengthen your credit history to boost financial growth."
     },
     howWeWork: {
       title: "HOW WE WORK",

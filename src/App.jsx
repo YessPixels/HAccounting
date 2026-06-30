@@ -13,15 +13,13 @@ import {
   ChevronRight, 
   ChevronLeft,
   Star, 
-  Trash2, 
-  Settings, 
-  Plus, 
   Globe, 
   Users, 
   ShieldCheck, 
   TrendingUp,
   Briefcase,
-  Heart
+  Heart,
+  CreditCard
 } from 'lucide-react';
 import { translations, initialTestimonials } from './localization';
 import './App.css';
@@ -42,24 +40,15 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeAboutSlide, setActiveAboutSlide] = useState(0);
   
+  const [activeService, setActiveService] = useState(null);
+  
   // Testimonials State
   const [testimonials, setTestimonials] = useState(() => {
     const saved = localStorage.getItem('hola_testimonials');
     return saved ? JSON.parse(saved) : initialTestimonials;
   });
   
-  // Admin Panel Toggle
-  const [adminOpen, setAdminOpen] = useState(false);
-  
-  // Admin Form State
-  const [adminForm, setAdminForm] = useState({
-    name: '',
-    businessEs: '',
-    businessEn: '',
-    textEs: '',
-    textEn: '',
-    rating: 5
-  });
+
 
   // Contact Form State
   const [contactForm, setContactForm] = useState({
@@ -161,45 +150,7 @@ function App() {
     addToast(lang === 'es' ? 'Descargando archivo PDF...' : 'Starting PDF download...');
   };
 
-  // Add testimonial from local simulated admin panel
-  const handleAddTestimonial = (e) => {
-    e.preventDefault();
-    if (!adminForm.name || !adminForm.textEs || !adminForm.textEn) {
-      addToast(lang === 'es' ? 'Completa los campos en ambos idiomas.' : 'Please fill in reviews for both languages.');
-      return;
-    }
 
-    const newTestimonial = {
-      id: Date.now().toString(),
-      name: adminForm.name,
-      business: {
-        es: adminForm.businessEs || 'Negocio Local',
-        en: adminForm.businessEn || 'Local Business'
-      },
-      text: {
-        es: adminForm.textEs,
-        en: adminForm.textEn
-      },
-      rating: Number(adminForm.rating)
-    };
-
-    setTestimonials((prev) => [newTestimonial, ...prev]);
-    setAdminForm({
-      name: '',
-      businessEs: '',
-      businessEn: '',
-      textEs: '',
-      textEn: '',
-      rating: 5
-    });
-    addToast(lang === 'es' ? 'Testimonio agregado correctamente.' : 'Testimonial added successfully.');
-  };
-
-  // Delete testimonial from local state
-  const handleDeleteTestimonial = (id) => {
-    setTestimonials((prev) => prev.filter((t) => t.id !== id));
-    addToast(lang === 'es' ? 'Testimonio eliminado.' : 'Testimonial deleted.');
-  };
 
   // Smooth scroll helper
   const scrollToSection = (id) => {
@@ -375,46 +326,61 @@ function App() {
       <section id="servicios" className="services-section">
         <div className="container-wide">
           <div className="section-header">
-            <span className="resource-tag">{t.services.title}</span>
             <h2>{t.services.title}</h2>
           </div>
 
           <div className="services-grid">
-            {/* Card 1 */}
-            <div className="service-card">
-              <div className="service-icon-box">
-                <BookOpen size={24} />
-              </div>
-              <h3>{t.services.s1Title}</h3>
-              <p>{t.services.s1Desc}</p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="service-card">
-              <div className="service-icon-box">
-                <TrendingUp size={24} />
-              </div>
-              <h3>{t.services.s2Title}</h3>
-              <p>{t.services.s2Desc}</p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="service-card">
-              <div className="service-icon-box">
-                <ShieldCheck size={24} />
-              </div>
-              <h3>{t.services.s3Title}</h3>
-              <p>{t.services.s3Desc}</p>
-            </div>
-
-            {/* Card 4 */}
-            <div className="service-card">
-              <div className="service-icon-box">
-                <Users size={24} />
-              </div>
-              <h3>{t.services.s4Title}</h3>
-              <p>{t.services.s4Desc}</p>
-            </div>
+            {[
+              { id: 1, icon: BookOpen, title: t.services.s1Title, desc: t.services.s1Desc },
+              { id: 2, icon: TrendingUp, title: t.services.s2Title, desc: t.services.s2Desc },
+              { id: 3, icon: ShieldCheck, title: t.services.s3Title, desc: t.services.s3Desc },
+              { id: 4, icon: Users, title: t.services.s4Title, desc: t.services.s4Desc },
+              { id: 5, icon: CreditCard, title: t.services.s5Title, desc: t.services.s5Desc }
+            ].map((srv, idx) => {
+              const Icon = srv.icon;
+              const isOpen = activeService === idx;
+              return (
+                <div 
+                  key={srv.id} 
+                  className={`service-card ${isOpen ? 'is-open' : ''}`}
+                  onClick={() => setActiveService(isOpen ? null : idx)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="service-icon-box">
+                    <Icon size={24} />
+                  </div>
+                  <h3>{srv.title}</h3>
+                  
+                  <div className="service-desc-wrapper" style={{ 
+                    maxHeight: isOpen ? '200px' : '0px', 
+                    opacity: isOpen ? 1 : 0,
+                    overflow: 'hidden',
+                    transition: 'max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease',
+                    marginTop: isOpen ? '12px' : '0px'
+                  }}>
+                    <p style={{ margin: 0 }}>{srv.desc}</p>
+                  </div>
+                  
+                  <div className="service-toggle-indicator" style={{ 
+                    marginTop: 'auto', 
+                    paddingTop: '16px',
+                    color: 'var(--turquoise-dark)',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    <span>{isOpen ? (lang === 'es' ? 'Ver menos' : 'Show less') : (lang === 'es' ? 'Ver más' : 'Show more')}</span>
+                    <span style={{ 
+                      transform: isOpen ? 'rotate(-90deg)' : 'rotate(90deg)', 
+                      transition: 'transform 0.3s ease',
+                      display: 'inline-block'
+                    }}>➔</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -452,7 +418,7 @@ function App() {
                 <h3>{t.howWeWork.step2Title}</h3>
                 <p>{t.howWeWork.step2Desc}</p>
                 {/* Arrow to Next */}
-                <div className="timeline-connector" style={{ left: '50%' }}>
+                <div className="timeline-connector">
                   <span className="timeline-arrow">➔</span>
                 </div>
               </div>
@@ -575,144 +541,7 @@ function App() {
             </div>
           )}
 
-          {/* Simulation Toggle for Administration Panel */}
-          <div className="admin-trigger-bar">
-            <button 
-              className="btn btn-secondary" 
-              style={{ fontSize: '0.8rem', padding: '8px 16px', display: 'flex', gap: '8px', borderStyle: 'dashed' }}
-              onClick={() => setAdminOpen(!adminOpen)}
-              id="admin-sim-toggle"
-            >
-              <Settings size={14} />
-              {adminOpen ? t.testimonials.closeBtn : t.testimonials.openBtn}
-            </button>
-          </div>
 
-          {/* Admin Simulated Control Panel */}
-          {adminOpen && (
-            <div className="admin-panel-card">
-              <h3>{t.testimonials.adminTitle}</h3>
-              <p className="admin-intro-text">{t.testimonials.adminIntro}</p>
-              
-              <form onSubmit={handleAddTestimonial} className="admin-form">
-                <div className="admin-form-grid">
-                  <div className="admin-input-group">
-                    <label>{t.testimonials.namePlaceholder}</label>
-                    <input 
-                      type="text" 
-                      className="admin-input"
-                      placeholder="e.g. Carlos Mendoza" 
-                      value={adminForm.name}
-                      onChange={(e) => setAdminForm({...adminForm, name: e.target.value})}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="admin-input-group">
-                    <label>{t.testimonials.ratingLabel}</label>
-                    <select 
-                      className="admin-select"
-                      value={adminForm.rating}
-                      onChange={(e) => setAdminForm({...adminForm, rating: Number(e.target.value)})}
-                    >
-                      <option value="5">5 estrellas ★★★★★</option>
-                      <option value="4">4 estrellas ★★★★☆</option>
-                      <option value="3">3 estrellas ★★★☆☆</option>
-                    </select>
-                  </div>
-
-                  <div className="admin-input-group">
-                    <label>Negocio (ES)</label>
-                    <input 
-                      type="text" 
-                      className="admin-input"
-                      placeholder="e.g. Dueña de Negocio" 
-                      value={adminForm.businessEs}
-                      onChange={(e) => setAdminForm({...adminForm, businessEs: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="admin-input-group">
-                    <label>Business (EN)</label>
-                    <input 
-                      type="text" 
-                      className="admin-input"
-                      placeholder="e.g. Business Owner" 
-                      value={adminForm.businessEn}
-                      onChange={(e) => setAdminForm({...adminForm, businessEn: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="admin-input-group" style={{ gridColumn: 'span 2' }}>
-                    <label>Testimonio (ES)</label>
-                    <textarea 
-                      className="admin-textarea"
-                      placeholder="Escribe la opinión en español..."
-                      value={adminForm.textEs}
-                      onChange={(e) => setAdminForm({...adminForm, textEs: e.target.value})}
-                      required
-                    />
-                  </div>
-
-                  <div className="admin-input-group" style={{ gridColumn: 'span 2' }}>
-                    <label>Review (EN)</label>
-                    <textarea 
-                      className="admin-textarea"
-                      placeholder="Write review in English..."
-                      value={adminForm.textEn}
-                      onChange={(e) => setAdminForm({...adminForm, textEn: e.target.value})}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="admin-actions-row">
-                  <button type="submit" className="btn btn-primary" style={{ padding: '8px 20px', fontSize: '0.8rem' }}>
-                    <Plus size={14} />
-                    {t.testimonials.addTestimonial}
-                  </button>
-                  <button 
-                    type="button" 
-                    className="btn btn-secondary" 
-                    style={{ padding: '8px 20px', fontSize: '0.8rem', borderColor: '#475569', color: '#94a3b8' }}
-                    onClick={() => setAdminOpen(false)}
-                  >
-                    {t.testimonials.closeBtn}
-                  </button>
-                </div>
-              </form>
-
-              {/* Existing Testimonials List in Admin */}
-              <table className="admin-list-table">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Negocio</th>
-                    <th>Calificación</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {testimonials.map((test) => (
-                    <tr key={test.id}>
-                      <td>{test.name}</td>
-                      <td>{typeof test.business === 'string' ? test.business : test.business.es}</td>
-                      <td>{test.rating}★</td>
-                      <td>
-                        <button 
-                          className="admin-btn-delete"
-                          onClick={() => handleDeleteTestimonial(test.id)}
-                          aria-label="Delete testimonial"
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
       </section>
 
@@ -721,7 +550,6 @@ function App() {
         <div className="container-wide">
           {/* Centered Section Header for Nosotros */}
           <div className="section-header">
-            <span className="resource-tag">{t.about.tag}</span>
             <h2>{t.about.tag}</h2>
           </div>
 
@@ -769,14 +597,7 @@ function App() {
                     {profile.bio}
                   </p>
 
-                  <a 
-                    href="https://calendar.app.google/dBVKQ2pbP3CL4GCv8" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="btn about-btn"
-                  >
-                    {t.about.button}
-                  </a>
+
 
                   {/* Bullets with icons matching image */}
                   <div className="about-bullets-box" style={{ marginTop: '24px', borderTop: '1px solid rgba(13, 44, 84, 0.08)', paddingTop: '20px' }}>
@@ -907,6 +728,17 @@ function App() {
                   <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.917 3.917 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04 1.804.57 3.205 1.726 4.361 1.156 1.156 2.556 1.686 4.36 1.726.853.038 1.125.048 3.298.048 2.17 0 2.442-.01 3.296-.048 1.805-.04 3.207-.57 4.361-1.726 1.156-1.155 1.686-2.556 1.726-4.36.038-.853.048-1.125.048-3.298 0-2.172-.01-2.444-.048-3.298-.04-1.803-.57-3.204-1.726-4.361-1.156-1.156-2.556-1.686-4.36-1.726C10.443.01 10.17 0 8 0zm.002 1.46c2.14 0 2.394.008 3.237.046.778.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.707.275 1.486.038.84.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.778-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.778-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
                 </svg>
               </a>
+              <a 
+                href="https://www.linkedin.com/in/hola-accounting-04986141a?utm_source=share_via&utm_content=profile&utm_medium=member_android" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-link-circle" 
+                aria-label="LinkedIn"
+              >
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 1.146C0 .513.52 0 1.161 0h13.678C15.48 0 16 .513 16 1.146v13.708c0 .633-.52 1.146-1.161 1.146H1.161C.52 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                </svg>
+              </a>
             </div>
           </div>
 
@@ -918,6 +750,7 @@ function App() {
               <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Financial Reporting</a></li>
               <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Catch-Up & Clean-Up</a></li>
               <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Advisory Services</a></li>
+              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Credit Repair</a></li>
             </ul>
           </div>
 
@@ -948,13 +781,16 @@ function App() {
                 <Mail size={14} className="footer-info-icon" />
                 <span>hola@holaaccounting.com</span>
               </li>
-              <li className="footer-info-item">
-                <Phone size={14} className="footer-info-icon" />
-                <span>(570) 123-4567</span>
+              <li className="footer-info-item" style={{ alignItems: 'flex-start' }}>
+                <Phone size={14} className="footer-info-icon" style={{ marginTop: '3px' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <span><strong style={{ fontSize: '0.75rem', color: 'var(--primary-navy)', opacity: 0.9 }}>{lang === 'es' ? 'Español' : 'Spanish'}:</strong> (570) 987-6543</span>
+                  <span><strong style={{ fontSize: '0.75rem', color: 'var(--primary-navy)', opacity: 0.9 }}>English:</strong> (570) 123-4567</span>
+                </div>
               </li>
               <li className="footer-info-item">
                 <MapPin size={14} className="footer-info-icon" />
-                <span>Scranton, PA, USA</span>
+                <span>Texas, USA</span>
               </li>
             </ul>
           </div>
