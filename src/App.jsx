@@ -201,7 +201,7 @@ function App() {
               <span style={{ opacity: 0.5 }}>{lang === 'es' ? 'EN' : 'ES'}</span>
             </button>
             <a 
-              href="https://calendar.app.google/dBVKQ2pbP3CL4GCv8" 
+              href="https://calendly.com/hello-holaaccounting/45min" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="btn btn-primary"
@@ -239,7 +239,7 @@ function App() {
             <span style={{ marginLeft: '8px' }}>{lang === 'es' ? 'English (EN)' : 'Español (ES)'}</span>
           </button>
           <a 
-            href="https://calendar.app.google/dBVKQ2pbP3CL4GCv8" 
+            href="https://calendly.com/hello-holaaccounting/45min" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="btn btn-primary"
@@ -267,7 +267,7 @@ function App() {
             </p>
             <div className="hero-ctas">
               <a 
-                href="https://calendar.app.google/dBVKQ2pbP3CL4GCv8" 
+                href="https://calendly.com/hello-holaaccounting/45min" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn hero-btn-primary"
@@ -693,7 +693,7 @@ function App() {
             </div>
           </div>
           <a 
-            href="https://calendar.app.google/dBVKQ2pbP3CL4GCv8" 
+            href="https://calendly.com/hello-holaaccounting/45min" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="btn final-cta-btn"
@@ -746,11 +746,11 @@ function App() {
           <div className="footer-column">
             <h4>{t.footer.quickLinks}</h4>
             <ul className="footer-links">
-              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Bookkeeping</a></li>
-              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Financial Reporting</a></li>
-              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Catch-Up & Clean-Up</a></li>
-              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Advisory Services</a></li>
-              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>Credit Repair</a></li>
+              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>{t.services.s1Title}</a></li>
+              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>{t.services.s2Title}</a></li>
+              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>{t.services.s3Title}</a></li>
+              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>{t.services.s4Title}</a></li>
+              <li className="footer-link-item"><a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}>{t.services.s5Title}</a></li>
             </ul>
           </div>
 
@@ -758,7 +758,7 @@ function App() {
           <div className="footer-column">
             <h4>{t.footer.resources}</h4>
             <ul className="footer-links">
-              <li className="footer-link-item"><a href="#recursos" onClick={(e) => { e.preventDefault(); scrollToSection('recursos'); }}>5 Errores Financieros</a></li>
+              <li className="footer-link-item"><a href="#recursos" onClick={(e) => { e.preventDefault(); scrollToSection('recursos'); }}>{lang === 'es' ? '5 Errores Financieros' : '5 Financial Mistakes'}</a></li>
             </ul>
           </div>
 
@@ -766,10 +766,10 @@ function App() {
           <div className="footer-column">
             <h4>{t.footer.links}</h4>
             <ul className="footer-links">
-              <li className="footer-link-item"><a href="#sobre-mi" onClick={(e) => { e.preventDefault(); scrollToSection('sobre-mi'); }}>Sobre Mí</a></li>
-              <li className="footer-link-item"><a href="https://calendar.app.google/dBVKQ2pbP3CL4GCv8" target="_blank" rel="noopener noreferrer">{t.nav.cta}</a></li>
-              <li className="footer-link-item"><a href="#privacy">Política de Privacidad</a></li>
-              <li className="footer-link-item"><a href="#terms">Términos y Condiciones</a></li>
+              <li className="footer-link-item"><a href="#sobre-mi" onClick={(e) => { e.preventDefault(); scrollToSection('sobre-mi'); }}>{t.nav.about}</a></li>
+              <li className="footer-link-item"><a href="https://calendly.com/hello-holaaccounting/45min" target="_blank" rel="noopener noreferrer">{t.nav.cta}</a></li>
+              <li className="footer-link-item"><a href={lang === 'es' ? 'https://app.box.com/s/py8ng9vdrmwo7p6a98gp1rs7tvo6pzqn' : 'https://app.box.com/s/jpdxrtdo1n8o7ieb3k69cu78zlcg6d6t'} target="_blank" rel="noopener noreferrer">{lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}</a></li>
+              <li className="footer-link-item"><a href={lang === 'es' ? 'https://app.box.com/s/a9kglraqxizgxi2vvtx81cth5erafyvj' : 'https://app.box.com/s/7qas4id8plxnadsi6librfdbypf8438u'} target="_blank" rel="noopener noreferrer">{lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions'}</a></li>
             </ul>
           </div>
 
@@ -779,13 +779,13 @@ function App() {
             <ul className="footer-info-list">
               <li className="footer-info-item">
                 <Mail size={14} className="footer-info-icon" />
-                <span>hola@holaaccounting.com</span>
+                <a href="mailto:hello@holaaccounting.com">hello@holaaccounting.com</a>
               </li>
               <li className="footer-info-item" style={{ alignItems: 'flex-start' }}>
                 <Phone size={14} className="footer-info-icon" style={{ marginTop: '3px' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span><strong style={{ fontSize: '0.75rem', color: 'var(--primary-navy)', opacity: 0.9 }}>{lang === 'es' ? 'Español' : 'Spanish'}:</strong> (570) 987-6543</span>
-                  <span><strong style={{ fontSize: '0.75rem', color: 'var(--primary-navy)', opacity: 0.9 }}>English:</strong> (570) 123-4567</span>
+                  <span><strong style={{ fontSize: '0.75rem', color: 'var(--primary-navy)', opacity: 0.9 }}>{lang === 'es' ? 'Español' : 'Spanish'}:</strong> +52 33 2232 2628</span>
+                  <span><strong style={{ fontSize: '0.75rem', color: 'var(--primary-navy)', opacity: 0.9 }}>English:</strong> +1 (830) 302-1944</span>
                 </div>
               </li>
               <li className="footer-info-item">

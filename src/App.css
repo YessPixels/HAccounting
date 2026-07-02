@@ -1453,6 +1453,17 @@
   font-weight: 600;
 }
 
+.footer-info-item a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: inherit;
+  transition: color 0.2s ease;
+}
+
+.footer-info-item a:hover {
+  color: var(--turquoise-dark);
+}
+
 .footer-info-icon {
   color: var(--turquoise-dark);
   margin-top: 2px;
